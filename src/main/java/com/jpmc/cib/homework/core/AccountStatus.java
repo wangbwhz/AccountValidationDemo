@@ -1,5 +1,7 @@
 package com.jpmc.cib.homework.core;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class AccountStatus {
 
     private boolean isValid;
@@ -12,11 +14,11 @@ public class AccountStatus {
         this.isValid = isValid;
         this.provider = provider;
     }
-
+    @JsonProperty("isValid")
     public boolean isValid() {
         return isValid;
     }
-
+    @JsonProperty("isValid")
     public void setValid(boolean valid) {
         isValid = valid;
     }
