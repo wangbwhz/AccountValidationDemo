@@ -5,10 +5,12 @@ import com.jpmc.cib.homework.core.AccountStatus;
 import com.jpmc.cib.homework.core.DataProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import com.jpmc.cib.homework.exceptions.DataProviderException;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @EnableConfigurationProperties(DataProviderProperties.class)
@@ -41,6 +43,27 @@ public class DataProviderServiceImpl implements  DataProviderService {
         }
         return selectedDataProviders;
     }
+    /**
+     * Simulate http request to query account with url
+     * @param accountNumber number of the account
+     * @param dataProvider data provider
+     * @return status of the account
+     */
+    public AccountStatus queryAccountStatusByProvider(String accountNumber, DataProvider dataProvider) throws InterruptedException {
+        Thread.sleep(3000);
+        return new AccountStatus(true,dataProvider.getName());
+    }
+
+    @Override
+    @Async
+    public CompletableFuture<AccountStatus> validateAccountByProvider(String accountNumber,DataProvider dataProvider) throws DataProviderException {
+        try {
+            return CompletableFuture.completedFuture(queryAccountStatusByProvider(accountNumber, dataProvider));
+        }catch (InterruptedException e) {
+            throw new DataProviderException("Data provider service is unavailable");
+        }
+    }
+
 
 
 
