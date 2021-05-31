@@ -35,7 +35,7 @@ public class AccountServiceImpl implements AccountService {
         }
 
         try {
-            CompletableFuture.allOf(accountStatusCompletableFutures).get(1, TimeUnit.SECONDS);
+            CompletableFuture.allOf(accountStatusCompletableFutures).get(2, TimeUnit.SECONDS);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
             boolean validationSucceedExists=false;
             for (int i = 0; i < accountStatusCompletableFutures.length; i++) {

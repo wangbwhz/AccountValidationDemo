@@ -50,7 +50,7 @@ public class DataProviderServiceImpl implements  DataProviderService {
      * @return status of the account
      */
     public AccountStatus queryAccountStatusByProvider(String accountNumber, DataProvider dataProvider) throws InterruptedException {
-        Thread.sleep(3000);
+        Thread.sleep(1000);
         return new AccountStatus(true,dataProvider.getName());
     }
 
