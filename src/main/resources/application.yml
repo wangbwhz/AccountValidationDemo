@@ -1,6 +1,23 @@
+spring:
+  profiles:
+    active: dev
+---
+spring:
+  profiles: dev
+environment: testing
 data-provider-config:
   dataProviders:
     - name: provider1
       url: https://provider1.com/v1/api/account/validate
     - name: provider2
       url: https://provider2.com/v2/api/account/validate
+---
+spring:
+  profiles: prod
+environment: production
+data-provider-config:
+  dataProviders:
+    - name: provider3
+      url: https://provider3.com/v1/api/account/validate
+    - name: provider4
+      url: https://provider4.com/v2/api/account/validate
