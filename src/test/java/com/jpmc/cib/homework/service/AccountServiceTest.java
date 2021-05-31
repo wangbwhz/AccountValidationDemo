@@ -83,7 +83,7 @@ public class AccountServiceTest {
     public void validateAccountByProviderNamesProvidedSuccess() throws Exception {
         CompletableFuture<AccountStatus> future = supplyAsync(() -> {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -101,7 +101,7 @@ public class AccountServiceTest {
     public void validateAccountByProviderNamesOneTimeoutOneSucceed() throws Exception {
         CompletableFuture<AccountStatus> future= supplyAsync(() -> {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
