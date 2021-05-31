@@ -1,5 +1,6 @@
 package com.jpmc.cib.homework.service;
 import com.jpmc.cib.homework.configuration.DataProviderProperties;
+import com.jpmc.cib.homework.core.AccountStatus;
 import com.jpmc.cib.homework.core.DataProvider;
 import com.jpmc.cib.homework.exceptions.DataProviderException;
 import org.junit.Before;
@@ -13,6 +14,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
@@ -39,7 +42,7 @@ public class DataProviderServiceTest {
     private final List<String> allProviderNames=new ArrayList<>();
     private final List<String> validProviderNames=new ArrayList<>();
     private final List<String> inValidProviderNames=new ArrayList<>();
-
+    private DataProvider dataProvider=new DataProvider(providerName,url);
     private final List<DataProvider> emptyProviders=new ArrayList<>();
 
     @Before
@@ -84,5 +87,20 @@ public class DataProviderServiceTest {
         DataProviderServiceImpl dataProviderService = spy(DataProviderServiceImpl.class);
         doReturn(providers).when(dataProviderService).getAllProvidersByProviderNames();
         List<DataProvider> dataProvidersAns=dataProviderService.getProvidersByProviderNames(inValidProviderNames);
+    }
+
+    @Test
+    public void queryAccountStatusByProviderSuccess() throws Exception {
+        Mockito.when(dataProviderProperties.getDataProviders()).thenReturn(providers);
+        AccountStatus accountStatusAns=dataProviderService.queryAccountStatusByProvider(accountNumber,dataProvider);
+        assertEquals(providerName,accountStatusAns.getProvider());
+        assertTrue(accountStatusAns.isValid());
+    }
+    @Test
+    public void validateAccountByProviderSuccess() throws Exception {
+        CompletableFuture<AccountStatus> accountStatusCompleted =dataProviderService.validateAccountByProvider(accountNumber,dataProvider);
+        AccountStatus accountStatusAns=accountStatusCompleted.get();
+        assertEquals(providerName,accountStatusAns.getProvider());
+        assertTrue(accountStatusAns.isValid());
     }
 }
