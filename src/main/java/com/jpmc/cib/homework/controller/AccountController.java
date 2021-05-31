@@ -1,6 +1,7 @@
 package com.jpmc.cib.homework.controller;
 
 import com.jpmc.cib.homework.core.AccountStatus;
+import com.jpmc.cib.homework.core.AccountStatusResponse;
 import com.jpmc.cib.homework.core.AccountValidationRequestBody;
 import com.jpmc.cib.homework.exceptions.AccountException;
 import com.jpmc.cib.homework.service.AccountService;
@@ -24,11 +25,11 @@ public class AccountController {
     @Autowired
     AccountService accountService;
     @PostMapping("/accounts")
-    ResponseEntity<List<AccountStatus>> validateAccounts(@RequestBody AccountValidationRequestBody accountValidationRequestBody) throws AccountException {
+    ResponseEntity<AccountStatusResponse> validateAccounts(@RequestBody AccountValidationRequestBody accountValidationRequestBody) throws AccountException {
         if( accountValidationRequestBody.getProviders().size()>0){
-            return ResponseEntity.ok(accountService.validateAccountByProviderNames(accountValidationRequestBody.getAccountNumber(),accountValidationRequestBody.getProviders()));
+            return ResponseEntity.ok(new AccountStatusResponse(accountService.validateAccountByProviderNames(accountValidationRequestBody.getAccountNumber(),accountValidationRequestBody.getProviders())));
         }else{
-            return ResponseEntity.ok(accountService.validateAccountByProviderNames(accountValidationRequestBody.getAccountNumber()));
+            return ResponseEntity.ok(new AccountStatusResponse(accountService.validateAccountByProviderNames(accountValidationRequestBody.getAccountNumber())));
         }
     }
 

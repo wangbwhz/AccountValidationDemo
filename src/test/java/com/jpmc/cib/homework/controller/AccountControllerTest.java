@@ -55,9 +55,9 @@ public class AccountControllerTest {
                 .content(asJsonString(accountValidationRequestBody))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].isValid", is(true)))
-                .andExpect(jsonPath("$[0].provider", is(providerName)));
+                    .andExpect(jsonPath("$.result", hasSize(1)))
+                .andExpect(jsonPath("$.result[0].isValid", is(true)))
+                .andExpect(jsonPath("$.result[0].provider", is(providerName)));
 
     }
 }
